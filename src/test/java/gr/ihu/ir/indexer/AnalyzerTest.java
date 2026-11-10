@@ -28,6 +28,14 @@ class AnalyzerTest {
     }
 
     @Test
+    void titleSkipsArxivSideStamp() {
+        // Η κάθετη σφραγίδα του arXiv βγαίνει ως πολλές μικρές γραμμές πριν από τον τίτλο.
+        String text = "8\n M\nay\n 2\n00\n7\n] \n R\nI\n.s\nc\n[\n 1\nv\n1\n6\n1\n1\n.\n5\n0\n7\n0\n:\nv\ni\nX\nr\na\n"
+                + "IDF Revisited: A Simple New Derivation\nAuthor Name\nAbstract ...";
+        assertEquals("IDF Revisited: A Simple New Derivation", LuceneDocumentFactory.guessTitle(text));
+    }
+
+    @Test
     void contentFieldStoresFreqsPositionsAndText() {
         assertEquals(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS, LuceneDocumentFactory.CONTENT_TYPE.indexOptions());
         assertTrue(LuceneDocumentFactory.CONTENT_TYPE.stored());

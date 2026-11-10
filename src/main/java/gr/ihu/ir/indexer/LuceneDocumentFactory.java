@@ -59,17 +59,21 @@ public final class LuceneDocumentFactory {
     }
 
     /**
-     * Ένας απλός «τίτλος» για εμφάνιση: η πρώτη γραμμή του κειμένου με αρκετά γράμματα.
+     * Ένας απλός «τίτλος» για εμφάνιση: η πρώτη γραμμή (από τις 40 πρώτες) με αρκετά γράμματα.
      * (Δεν είναι πάντα ο πραγματικός τίτλος του άρθρου, αλλά συνήθως είναι κοντά.)
+     *
+     * Τα PDF του arXiv έχουν στο περιθώριο την κάθετη «σφραγίδα» "arXiv:0705.1161v1 [cs.IR] 8 May 2007",
+     * που το PDFBox βγάζει ως πολλές πολύ μικρές γραμμές ("8", "M", "ay", "2", ...). Αυτές
+     * έχουν λίγα γράμματα, οπότε απορρίπτονται από τον έλεγχο letters >= 10.
      */
     static String guessTitle(String text) {
-        for (String line : text.split("\n", 15)) {
-            String t = line.strip();
-            long letters = t.chars().filter(Character::isLetter).count();
-            if (letters >= 10 && !t.toLowerCase().startsWith("arxiv:")) {
-                return t.length() > 200 ? t.substring(0, 200) + "…" : t;
-            }
-        }
-        return "";
+        return text.lines()
+                .limit(40)
+                .map(String::strip)
+                .filter(t -> t.chars().filter(Character::isLetter).count() >= 10)
+                .filter(t -> !t.toLowerCase().startsWith("arxiv:"))
+                .findFirst()
+                .map(t -> t.length() > 200 ? t.substring(0, 200) + "…" : t)
+                .orElse("");
     }
 }
