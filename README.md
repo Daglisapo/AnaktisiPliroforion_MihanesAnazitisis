@@ -25,6 +25,7 @@ App 5 Search Interface ─(query q)─► App 4 Query Client ─(TCP/JSON)─►
 | 5 | `gr.ihu.ir.ui.SearchInterface` | Web σελίδα στο `http://localhost:8080` (πλαίσιο + «Αναζήτηση»), καλεί το App 4 |
 
 Η αναλυτική εξήγηση για την παρουσίαση είναι στο [ΕΞΗΓΗΣΗ.md](ΕΞΗΓΗΣΗ.md) και το σενάριο της ζωντανής επίδειξης στο [demo.md](demo.md).
+Οι διαφάνειες της παρουσίασης (9 slides, με σημειώσεις ομιλητή) είναι στο [presentation.pptx](presentation.pptx).
 
 ## Απαιτήσεις
 
