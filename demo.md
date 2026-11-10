@@ -1,6 +1,7 @@
 # Σενάριο ζωντανής παρουσίασης (~5 λεπτά)
 
-**Πριν το μάθημα** (το App 1 στα 10.000 PDF και το App 2 κάνουν ώρα — τα τρέχουμε από πριν):
+**Πριν το μάθημα** (στον δικό μου υπολογιστή το App 1 θέλει ~3 λεπτά για τα 10.000 PDF και το App 2 ~30 s —
+τα τρέχουμε από πριν· αν ζητηθεί, το App 2 μπορεί να τρέξει και ζωντανά):
 
 ```bat
 build.bat
@@ -65,11 +66,11 @@ run-app5.bat
 
 Browser → <http://localhost:8080>. Ερωτήματα:
 
-1. `"information retrieval"` — φράση (positions)
-2. `reinforcement learning AND robot` — Boolean AND
-3. `graph OR network NOT neural` — OR / NOT
-4. `transform* AND translation` — wildcard
-5. `quantum` — απλό ερώτημα, σελιδοποίηση («Επόμενη»)
+1. `"information retrieval"` — φράση (positions) → 28 αποτελέσματα, 1ο «IDF Revisited…»
+2. `reinforcement learning AND robot` — Boolean AND → 26, 1ο «Evolving Symbolic Controllers»
+3. `graph OR network NOT neural` — OR / NOT → 2.356
+4. `"dark matter"` — η συλλογή έχει και φυσική → 617
+5. `quantum` — απλό ερώτημα, 3.940 αποτελέσματα, σελιδοποίηση («Επόμενη»)
 
 Κλικ σε έναν τίτλο → ανοίγει το PDF. Δείχνουμε score, snippet με τονισμένους όρους, πλήθος αποτελεσμάτων.
 
