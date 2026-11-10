@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arXiv Search — Lucene</title>
+<style>
+  :root { --accent: #1a56db; --text: #1f2937; --muted: #6b7280; --bg: #f7f8fa; --card: #fff; --line: #e5e7eb; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--text); background: var(--bg); }
+  header { background: var(--card); border-bottom: 1px solid var(--line); padding: 18px 16px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { margin: 0 0 12px; font-size: 22px; }
+  h1 span { color: var(--accent); }
+  form { display: flex; gap: 8px; }
+  input[type=text] { flex: 1; min-width: 0; padding: 11px 14px; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 8px; }
+  input[type=text]:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+  button { padding: 11px 20px; font-size: 16px; background: var(--accent); color: #fff; border: 0; border-radius: 8px; cursor: pointer; }
+  button:hover { background: #1e429f; }
+  .help { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .help code { background: #eef2ff; padding: 1px 5px; border-radius: 4px; }
+  main { padding: 16px; }
+  .stats { color: var(--muted); font-size: 14px; margin: 4px 0 12px; }
+  .results { list-style: none; padding: 0; margin: 0; }
+  .result { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+  .title { font-size: 17px; color: var(--accent); text-decoration: none; font-weight: 600; overflow-wrap: anywhere; }
+  .title:hover { text-decoration: underline; }
+  .meta { color: #047857; font-size: 13px; margin: 3px 0 6px; overflow-wrap: anywhere; }
+  .snippet { font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+  mark { background: #fef08a; padding: 0 1px; }
+  .msg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .msg.error { border-color: #fca5a5; background: #fef2f2; color: #991b1b; }
+  .pager { display: flex; gap: 16px; align-items: center; justify-content: center; margin: 18px 0; font-size: 14px; }
+  .pager a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>arXiv <span>Search</span></h1>
+    <form action="/" method="get">
+      <input type="text" name="q" value="{{QUERY}}" placeholder="π.χ. neural network, &quot;information retrieval&quot;, graph AND NOT neural" autofocus>
+      <button type="submit">Αναζήτηση</button>
+    </form>
+    <div class="help">
+      Σύνταξη: <code>λέξη1 λέξη2</code> (OR) &middot; <code>a AND b</code> &middot; <code>a NOT b</code> &middot;
+      <code>"φράση"</code> &middot; <code>(a OR b) AND c</code> &middot; <code>learn*</code>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    {{CONTENT}}
+  </div>
+</main>
+</body>
+</html>
