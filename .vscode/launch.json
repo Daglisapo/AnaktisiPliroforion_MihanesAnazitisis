@@ -1,0 +1,97 @@
+{
+  // Ένα launch configuration για κάθε app (Run and Debug → επιλογή από τη λίστα).
+  // Χρειάζεται: "Extension Pack for Java" (vscjava.vscode-java-pack) και JDK 21.
+  // "shortenCommandLine": "jarmanifest" → το VS Code περνά το classpath μέσα σε ένα
+  // προσωρινό jar, γιατί το path του project έχει ελληνικά και η Java στα Windows
+  // μπορεί να «χαλάσει» μη-ASCII χαρακτήρες σε ορίσματα/argfiles.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "App 1 - Store Module (--limit 100)",
+      "request": "launch",
+      "mainClass": "gr.ihu.ir.store.StoreModule",
+      "projectName": "search-engine",
+      "args": "--limit 100",
+      "vmArgs": "-Xmx3g",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest"
+    },
+    {
+      "type": "java",
+      "name": "App 1 - Store Module (ΟΛΑ τα PDF)",
+      "request": "launch",
+      "mainClass": "gr.ihu.ir.store.StoreModule",
+      "projectName": "search-engine",
+      "vmArgs": "-Xmx3g",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest"
+    },
+    {
+      "type": "java",
+      "name": "App 2 - Indexer",
+      "request": "launch",
+      "mainClass": "gr.ihu.ir.indexer.Indexer",
+      "projectName": "search-engine",
+      "vmArgs": "-Xmx2g --add-modules jdk.incubator.vector",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest"
+    },
+    {
+      "type": "java",
+      "name": "App 3 - Query Server",
+      "request": "launch",
+      "mainClass": "gr.ihu.ir.server.QueryServer",
+      "projectName": "search-engine",
+      "vmArgs": "-Xmx1g --add-modules jdk.incubator.vector",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest"
+    },
+    {
+      "type": "java",
+      "name": "App 4 - Query Client (διαδραστικός)",
+      "request": "launch",
+      "mainClass": "gr.ihu.ir.client.QueryClient",
+      "projectName": "search-engine",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest"
+    },
+    {
+      "type": "java",
+      "name": "App 4 - Query Client (\"neural network\" 10)",
+      "request": "launch",
+      "mainClass": "gr.ihu.ir.client.QueryClient",
+      "projectName": "search-engine",
+      "args": ["\"neural network\"", "10", "--pretty"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest"
+    },
+    {
+      "type": "java",
+      "name": "App 4 - Shutdown server",
+      "request": "launch",
+      "mainClass": "gr.ihu.ir.client.QueryClient",
+      "projectName": "search-engine",
+      "args": "--shutdown",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest"
+    },
+    {
+      "type": "java",
+      "name": "App 5 - Search Interface (http://localhost:8080)",
+      "request": "launch",
+      "mainClass": "gr.ihu.ir.ui.SearchInterface",
+      "projectName": "search-engine",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "shortenCommandLine": "jarmanifest"
+    }
+  ]
+}

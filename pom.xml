@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        Εργασία «Κατασκευή συστήματος αναζήτησης» – Ανάκτηση Πληροφοριών (ΔΙΠΑΕ).
+        Ένα Maven project με 5 ανεξάρτητες εφαρμογές (5 main κλάσεις).
+        Το maven-shade-plugin φτιάχνει ΕΝΑ "fat jar" (target/search-engine.jar)
+        που περιέχει όλες τις βιβλιοθήκες, ώστε τα run-appN.bat να είναι απλά.
+    -->
+    <groupId>gr.ihu.ir</groupId>
+    <artifactId>search-engine</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>IR Search Engine (Lucene)</name>
+
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lucene.version>10.6.0</lucene.version>
+        <pdfbox.version>3.0.8</pdfbox.version>
+        <jackson.version>2.23.0</jackson.version>
+        <junit.version>5.11.4</junit.version>
+    </properties>
+
+    <dependencies>
+        <!-- Lucene: IndexWriter, Document, FieldType, postings, IndexSearcher -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <!-- Lucene: EnglishAnalyzer (tokenization, lowercase, stopwords, Porter stemming) -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analysis-common</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <!-- Lucene: QueryParser (AND / OR / NOT / "φράσεις") -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <!-- Apache PDFBox: PDF -> plain text (App 1) -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
+        </dependency>
+        <!-- Jackson: JSON για το Repository και για το πρωτόκολλο client/server -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- Μόνο για τα unit tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>search-engine</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <!--
+                                    ΣΗΜΑΝΤΙΚΟ: η Lucene βρίσκει codecs/postings formats μέσω
+                                    META-INF/services (Java SPI). Χωρίς αυτόν τον transformer
+                                    τα αρχεία services από τα διάφορα JAR θα «πατούσαν» το ένα
+                                    το άλλο και η Lucene δεν θα άνοιγε το index.
+                                -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <!--
+                                    Η lucene-core είναι "Multi-Release JAR": περιέχει ειδικές κλάσεις
+                                    για Java 21+ (MemorySegment / MMapDirectory). Κρατάμε τη σημαία
+                                    Multi-Release στο manifest του fat jar ώστε να χρησιμοποιούνται.
+                                -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Multi-Release>true</Multi-Release>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>module-info.class</exclude>
+                                        <exclude>META-INF/versions/*/module-info.class</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

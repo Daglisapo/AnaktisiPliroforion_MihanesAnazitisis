@@ -1,0 +1,27 @@
+# Build
+target/
+
+# IDE (κρατάμε μόνο τα κοινά αρχεία του .vscode)
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.factorypath
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Δεδομένα — ΠΟΤΕ στο git (βρίσκονται στο C:\IR_data)
+*.pdf
+*.jsonl
+*.zip
+repository/
+index/
+arxiv_papers/
+errors.log
+*.log
+
+# Παραδοτέο
+submission.zip
